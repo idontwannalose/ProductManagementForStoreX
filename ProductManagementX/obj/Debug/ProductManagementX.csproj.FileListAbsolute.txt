@@ -1,0 +1,13 @@
+C:\Users\PC\source\repos\ProductManagementX\ProductManagementX\obj\Debug\ProductManagementX.csproj.AssemblyReference.cache
+C:\Users\PC\source\repos\ProductManagementX\ProductManagementX\obj\Debug\ProductManagementX.Properties.Resources.resources
+C:\Users\PC\source\repos\ProductManagementX\ProductManagementX\obj\Debug\ProductManagementX.csproj.GenerateResource.cache
+C:\Users\PC\source\repos\ProductManagementX\ProductManagementX\obj\Debug\ProductManagementX.csproj.CoreCompileInputs.cache
+C:\Users\PC\source\repos\ProductManagementX\ProductManagementX\bin\Debug\ProductManagementX.exe.config
+C:\Users\PC\source\repos\ProductManagementX\ProductManagementX\bin\Debug\ProductManagementX.exe
+C:\Users\PC\source\repos\ProductManagementX\ProductManagementX\bin\Debug\ProductManagementX.pdb
+C:\Users\PC\source\repos\ProductManagementX\ProductManagementX\obj\Debug\ProductManagementX.exe
+C:\Users\PC\source\repos\ProductManagementX\ProductManagementX\obj\Debug\ProductManagementX.pdb
+C:\Users\PC\source\repos\ProductManagementX\ProductManagementX\obj\Debug\ProductManagementX.LoginForm.resources
+C:\Users\PC\source\repos\ProductManagementX\ProductManagementX\obj\Debug\ProductManagementX.Admin.resources
+C:\Users\PC\source\repos\ProductManagementX\ProductManagementX\obj\Debug\ProductManagementX.Sales.resources
+C:\Users\PC\source\repos\ProductManagementX\ProductManagementX\obj\Debug\ProductManagementX.Warehouse.resources
