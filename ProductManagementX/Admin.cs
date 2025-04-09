@@ -36,6 +36,7 @@ namespace ProductManagementX
             FillDataEmployee();
             GetCategories();
             GetSupplier();
+            GetEmployees();
         }
 
         public void FillData()
@@ -146,6 +147,7 @@ namespace ProductManagementX
                 {
                     error++;
                     lbIDError.Text = "This ID is existing, please choose another";
+                    lbIDError.Visible = true;
                 }
                 else
                 {
@@ -186,6 +188,11 @@ namespace ProductManagementX
             txtPrice.Text = "";
             txtQuantity.Text = "";
             FillData();
+
+            lbIDError.Visible = false;
+            lbNameError.Visible = false;
+            lbPriceError.Visible = false;
+            lbQuantityError.Visible = false;
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -1039,6 +1046,115 @@ namespace ProductManagementX
                 loginForm.Show();
 
                 this.Close(); // Close the current form
+            }
+        }
+
+        private void btnView_Click(object sender, EventArgs e)
+        {
+            DateTime startDate = dtpStartDate.Value.Date;
+            DateTime endDate = dtpEndDate.Value.Date;
+
+            if (startDate > endDate)
+            {
+                MessageBox.Show("Start date must be earlier than or equal to the end date.", "Invalid Date Range", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection("Server=DESKTOP-RM70GOU\\SQLEXPRESS;Database=StoreXDB;Integrated Security=true;"))
+                {
+                    connection.Open();
+                    string query = @"
+                SELECT 
+                    o.OrderID,
+                    o.OrderDate,
+                    c.CustomerName,
+                    SUM(od.TotalAmount) AS TotalOrderAmount,
+                    COUNT(od.OrderDetailID) AS TotalProducts
+                FROM [Order] o
+                INNER JOIN Customer c ON o.CustomerID = c.CustomerID
+                INNER JOIN OrderDetail od ON o.OrderID = od.OrderID
+                WHERE o.OrderDate BETWEEN @StartDate AND @EndDate
+                GROUP BY o.OrderID, o.OrderDate, c.CustomerName
+                ORDER BY o.OrderDate";
+
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.Parameters.AddWithValue("@StartDate", startDate);
+                    cmd.Parameters.AddWithValue("@EndDate", endDate);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+
+                    dgvStatistics.DataSource = dataTable;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error fetching statistics: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public void GetEmployees()
+        {
+            string query = "SELECT EmployeeID, EmployeeName FROM Employee";
+            DataTable table = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+            adapter.Fill(table);
+            cbEmployee.DataSource = table;
+            cbEmployee.DisplayMember = "EmployeeName";
+            cbEmployee.ValueMember = "EmployeeID";
+        }
+
+        private void btnViewByEmployee_Click(object sender, EventArgs e)
+        {
+            if (cbEmployee.SelectedValue == null)
+            {
+                MessageBox.Show("Please select an employee.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int employeeId = Convert.ToInt32(cbEmployee.SelectedValue);
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection("Server=DESKTOP-RM70GOU\\SQLEXPRESS;Database=StoreXDB;Integrated Security=true;"))
+                {
+                    connection.Open();
+                    string query = @"
+                SELECT 
+                    o.OrderID,
+                    o.OrderDate,
+                    c.CustomerName,
+                    SUM(od.TotalAmount) AS TotalOrderAmount,
+                    COUNT(od.OrderDetailID) AS TotalProducts
+                FROM [Order] o
+                INNER JOIN Customer c ON o.CustomerID = c.CustomerID
+                INNER JOIN OrderDetail od ON o.OrderID = od.OrderID
+                WHERE o.EmployeeID = @EmployeeID
+                GROUP BY o.OrderID, o.OrderDate, c.CustomerName
+                ORDER BY o.OrderDate";
+
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.Parameters.AddWithValue("@EmployeeID", employeeId);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+
+                    if (dataTable.Rows.Count == 0)
+                    {
+                        MessageBox.Show("No orders found for the selected employee.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        dgvStatistics.DataSource = dataTable;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error fetching statistics: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

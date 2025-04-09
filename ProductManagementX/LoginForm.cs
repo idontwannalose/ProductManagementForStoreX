@@ -64,21 +64,21 @@ namespace ProductManagementX
 
                     if (userRole == 1) // If Admin
                     {
-                        MessageBox.Show("Login successful! Redirecting to Product Management.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Login successful! Redirecting to Admin Dashboard.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Admin productForm = new Admin();
                         productForm.Show();
                         this.Hide(); // Hide the login form
                     }
                     else if (userRole == 2) // If Sales
                     {
-                        MessageBox.Show("Login successful! Redirecting to Sales.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Login successful! Redirecting to Sales Dashboard.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Sales salesForm = new Sales();
                         salesForm.Show();
                         this.Hide(); // Hide the login form
                     }
                     else if (userRole == 3)
                     {
-                        MessageBox.Show("Login successful! Redirecting to Warehouse.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Login successful! Redirecting to Warehouse Dashboard.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Warehouse warehouseForm = new Warehouse(); // Bạn cần phải tạo form Warehouse
                         warehouseForm.Show();
                         this.Hide(); // Ẩn form đăng nhập
